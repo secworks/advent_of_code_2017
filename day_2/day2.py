@@ -7,7 +7,7 @@
 # Solution for Advent of code 2017, day 2.
 # http://adventofcode.com/2017/day/2
 #
-# Status: Not done.
+# Status: Done.
 #
 # Joachim Strömbergson 2017
 #
@@ -15,7 +15,6 @@
 
 import sys
 
-VERBOSE = 1
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
@@ -23,10 +22,37 @@ def get_input():
     my_input = []
     with open('my_input.txt','r') as f:
         for line in f:
-            print(line)
             my_string = line.split()
             my_input.append(my_string)
     return my_input
+
+
+#-------------------------------------------------------------------
+# get_divisor()
+#
+# Search through the list with two pointers to find the two
+# numbers that are evenly divisable. Return the divisor.
+#-------------------------------------------------------------------
+def get_divisor(line):
+    num = 0
+    dom = 0
+    for i in range(len(line)):
+        ival = int(line[i])
+        for j in range(len(line)):
+            jval = int(line[j])
+            if (i != j) and (ival % jval == 0):
+                num = ival
+                dom = jval
+    return int(num / dom)
+
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def second_part(my_input):
+    acc = 0
+    for line in my_input:
+        acc += get_divisor(line)
+    print("Part two - sum of divisors: %d" %(acc))
 
 
 #-------------------------------------------------------------------
@@ -40,19 +66,24 @@ def get_diff(line):
             minval = ival
         elif ival > maxval:
             maxval = ival
-
-    print(minval, maxval, (maxval - minval))
     return maxval - minval
 
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
-def main():
-    my_input = get_input()
+def first_part(my_input):
     acc = 0
     for line in my_input:
         acc += get_diff(line)
-    print(acc)
+    print("Part one - sum of differences: %d" %(acc))
+    print("")
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def main():
+    my_input = get_input()
+    first_part(my_input)
+    second_part(my_input)
 
 
 
@@ -65,5 +96,5 @@ if __name__=="__main__":
 
 
 #=======================================================================
-# EOF day_1.py
+# EOF day_2.py
 #=======================================================================
