@@ -52,6 +52,7 @@ def alex_captcha(s):
 def get_input():
     with open('my_input.txt','r') as f:
         my_string = f.read()
+    print(my_string)
     return my_string
 
 
