@@ -54,16 +54,39 @@ def distribute(state):
         state[ip] = state[ip] + 1
         i -= 1
 
-    print(state)
     return state
 
 
 #-------------------------------------------------------------------
-# main()
+# part_two()
+#
+# Find how many state updates are needed to get back to the
+# given init state.
 #-------------------------------------------------------------------
-def main():
-    state = [4, 10, 4, 1, 8, 4, 9, 14, 5, 1, 14, 15, 0, 15, 3, 5]
+def part_two(init_state):
 
+    new_state = init_state[:]
+    done = False
+    ctr = 0
+
+    while not done:
+        ctr += 1
+        new_state = distribute(new_state)
+        if new_state == init_state:
+            done = True
+
+    print("Part two.")
+    print("Init state recreated after %d updates" % (ctr))
+    print("")
+
+
+#-------------------------------------------------------------------
+# part_one()
+#
+# Detect loop in state starting from a given state.
+#-------------------------------------------------------------------
+def part_one(init_state):
+    state = init_state[:]
     prev_states = []
     loop = False
 
@@ -72,7 +95,18 @@ def main():
         state = distribute(state)
         loop = check_loop(state, prev_states)
 
+    print("Part one.")
     print("Loop found after %d updates" % (len(prev_states)))
+    print("")
+
+
+#-------------------------------------------------------------------
+# main()
+#-------------------------------------------------------------------
+def main():
+    my_state = [4, 10, 4, 1, 8, 4, 9, 14, 5, 1, 14, 15, 0, 15, 3, 5]
+    part_one(my_state)
+    part_two(my_state)
 
 
 #-------------------------------------------------------------------
