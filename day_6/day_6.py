@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 #=======================================================================
 #
-# day_1.py
+# day_6.py
 # --------
-# Solution for Advent of code 2017, day 1.
-# http://adventofcode.com/2017/day/1
+# Solution for Advent of code 2017, day 6.
+# http://adventofcode.com/2017/day/6
 #
 # Status: Not done.
 #
@@ -17,6 +17,10 @@ import sys
 
 
 #-------------------------------------------------------------------
+# check_loop()
+#
+# Given a state and a set of states, check if the state
+# is present among the states.
 #-------------------------------------------------------------------
 def check_loop(state, states):
     for prev in states:
@@ -26,6 +30,11 @@ def check_loop(state, states):
 
 
 #-------------------------------------------------------------------
+# distribute()
+#
+# Given a list with block allocations in a set of banks,
+# locate the bank with maximum number of blocks. Then
+# distribute these blocks in a round robin order.
 #-------------------------------------------------------------------
 def distribute(state):
     # Find bank with most blocks.
@@ -41,7 +50,7 @@ def distribute(state):
 
     # Distribute the number of blocks over the other banks.
     while i > 0:
-        ip = (ip + 1) % 16
+        ip = (ip + 1) % len(state)
         state[ip] = state[ip] + 1
         i -= 1
 
@@ -50,6 +59,7 @@ def distribute(state):
 
 
 #-------------------------------------------------------------------
+# main()
 #-------------------------------------------------------------------
 def main():
     state = [4, 10, 4, 1, 8, 4, 9, 14, 5, 1, 14, 15, 0, 15, 3, 5]
@@ -73,5 +83,5 @@ if __name__=="__main__":
 
 
 #=======================================================================
-# EOF day_1.py
+# EOF day_6.py
 #=======================================================================
