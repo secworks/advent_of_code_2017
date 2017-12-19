@@ -21,17 +21,23 @@ VERBOSE = 1
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def get_input():
+    my_data = []
     with open('my_input.txt','r') as f:
-        my_string = f.read()
-    print(my_string)
-    return my_string
+        for line in f:
+            my_data.append(line.split())
+    return my_data
+
+
+def get_regs(instructions):
+    return set()
 
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def main():
     my_instructions = get_input()
-    print(my_instructions)
+    my_regs = get_regs(my_instruction)
+
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
