@@ -7,7 +7,7 @@
 # Solution for Advent of code 2017, day 8.
 # http://adventofcode.com/2017/day/8
 #
-# Status: Not done.
+# Status: Done.
 #
 # Joachim Strömbergson 2017
 #
@@ -77,15 +77,34 @@ def execute(instr, regs):
 
     return regs
 
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def get_max(regs):
+    maxval = -100000000
+    for i in regs.values():
+        if i > maxval:
+            maxval = i
+    return maxval
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def main():
     my_instructions = get_input()
     my_regs = get_regs(my_instructions)
+
+    endmax = -100000000
+    procmax = -100000000
+
     for instr in my_instructions:
         my_regs = execute(instr, my_regs)
-    print(my_regs)
+        if get_max(my_regs) > procmax:
+            procmax = get_max(my_regs)
+
+    endmax = get_max(my_regs)
+
+    print("Max value in reg during processing: %d" % procmax)
+    print("Max value in reg after processing: %d" % endmax)
+
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
