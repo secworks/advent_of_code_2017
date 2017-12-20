@@ -21,23 +21,71 @@ VERBOSE = 1
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def get_input():
-    my_data = []
+    instr = []
     with open('my_input.txt','r') as f:
         for line in f:
-            my_data.append(line.split())
-    return my_data
+            instr.append(line.split())
+    return instr
 
 
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
 def get_regs(instructions):
-    return set()
+    regs = {}
+    for instr in instructions:
+        (destreg, mod, modop, ifw, condreg, cond, condval) = instr
+        regs[destreg] = 0
+        regs[condreg] = 0
+    return regs
+
+
+#-------------------------------------------------------------------
+# execute()
+#
+# Execute the given instruction, using, updating the  registers.
+# First check if the condition is true or not.
+# If condition is true execute the modification.
+#-------------------------------------------------------------------
+def execute(instr, regs):
+    (destreg, mod, modop, ifw, condreg, cond, condval) = instr
+    do_modop = False
+
+    if cond == "==":
+        if regs[condreg] == int(condval):
+            do_modop = True
+    if cond == "!=":
+        if regs[condreg] != int(condval):
+            do_modop = True
+    if cond == ">":
+        if regs[condreg] > int(condval):
+            do_modop = True
+    if cond == ">=":
+        if regs[condreg] >= int(condval):
+            do_modop = True
+    if cond == "<":
+        if regs[condreg] < int(condval):
+            do_modop = True
+    if cond == "<=":
+        if regs[condreg] <= int(condval):
+            do_modop = True
+
+    if do_modop:
+        if mod == "inc":
+            regs[destreg] += int(modop)
+        if mod == "dec":
+            regs[destreg] -= int(modop)
+
+    return regs
 
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def main():
     my_instructions = get_input()
-    my_regs = get_regs(my_instruction)
-
+    my_regs = get_regs(my_instructions)
+    for instr in my_instructions:
+        my_regs = execute(instr, my_regs)
+    print(my_regs)
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
