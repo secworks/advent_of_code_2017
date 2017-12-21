@@ -7,7 +7,7 @@
 # Solution for Advent of code 2017, day 6.
 # http://adventofcode.com/2017/day/6
 #
-# Status: Not done.
+# Status: Done.
 #
 # Joachim Strömbergson 2017
 #
@@ -64,19 +64,23 @@ def distribute(state):
 # given init state.
 #-------------------------------------------------------------------
 def part_two(init_state):
+    state = init_state[:]
+    prev_states = []
+    loop = False
 
-    new_state = init_state[:]
-    done = False
-    ctr = 0
+    while not loop:
+        prev_states.append(state[:])
+        state = distribute(state)
+        loop = check_loop(state, prev_states)
 
-    while not done:
-        ctr += 1
-        new_state = distribute(new_state)
-        if new_state == init_state:
-            done = True
+    # Find which state the last state collided with:
+    i = 0
+    while prev_states[i] != state:
+        i += 1
+    cycles = len(prev_states) - i
 
     print("Part two.")
-    print("Init state recreated after %d updates" % (ctr))
+    print("Loop size is %d cycles" % (cycles))
     print("")
 
 
