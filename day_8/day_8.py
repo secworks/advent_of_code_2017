@@ -42,7 +42,7 @@ def get_regs(instructions):
 #-------------------------------------------------------------------
 # execute()
 #
-# Execute the given instruction, using, updating the  registers.
+# Execute the given instruction, using, updating the registers.
 # First check if the condition is true or not.
 # If condition is true execute the modification.
 #-------------------------------------------------------------------
