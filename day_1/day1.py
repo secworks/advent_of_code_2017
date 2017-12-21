@@ -7,7 +7,7 @@
 # Solution for Advent of code 2017, day 1.
 # http://adventofcode.com/2017/day/1
 #
-# Status: Not done.
+# Status: Done.
 #
 # Joachim Strömbergson 2017
 #
@@ -15,7 +15,7 @@
 
 import sys
 
-VERBOSE = 1
+VERBOSE = 0
 
 
 #-------------------------------------------------------------------
@@ -55,10 +55,14 @@ def parse_two(string):
     acc = 0;
     i = 0
     j = int(length / 2)
-    while ctr <= length:
+    while ctr < length:
+        if VERBOSE:
+            print("ctr: %d, acc: %d, i: %d, idata: %s, j: %d, jdata: %s" %\
+                  (ctr, acc, i, string[i], j, string[j]))
+
         if string[i] == string[j]:
-            acc += 1
-#        print(ctr, acc, i, string[i], j, string[j])
+            acc = acc + int(string[i])
+
         i = (i + 1) % length
         j = (j + 1) % length
         ctr += 1
@@ -111,12 +115,12 @@ def test_two():
 # main()
 #-------------------------------------------------------------------
 def main():
-    test_one()
-    test_two()
-
     my_string = get_input()
     part_one(my_string)
     part_two(my_string)
+
+    test_one()
+    test_two()
 
 
 #-------------------------------------------------------------------
