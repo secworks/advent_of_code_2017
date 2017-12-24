@@ -23,8 +23,7 @@ VERBOSE = 0
 #
 # Get the manhattan distance from a coordinate to origo.
 #-------------------------------------------------------------------
-def get_manhattan_distance(coord):
-    x, y = coord
+def get_manhattan_distance(x, y):
     return abs(x) + abs(y)
 
 
@@ -50,104 +49,124 @@ def get_element_sum(elements, x, y):
         for j in range((y - 1), 3):
             name = coord2name(i, j)
             if name in elements:
-                acc += elements[name]
+                (state, value) = elements[name]
+                acc += value
     return acc
 
 
 #-------------------------------------------------------------------
-# get_spiral_position()
+# get_next_spiral_position()
 #
-# Get the (x, y) spiral positon for a given value n where
-# 1 is in (0, 0) and we move right, up, left, down,.. etc
+# Given a set of coordinates, direction and current min-, max-
+# values return the updated coordinates, direction and min-, max-
+# values in the spiral pattern.
 #
 # The trick is to look left in a given position.
 #-------------------------------------------------------------------
-def get_spiral_position(n):
-    min_x = 0
-    max_x = 0
-    min_y = 0
-    max_y = 0
+def get_next_spiral_position(state):
+    (x, y, min_x, max_x, min_y, max_y, direction) = state
 
-    tmp_x = 0
-    tmp_y = 0
-
-    # Create db with elements and add the initial origo element.
-    elements = {}
-    elements[coord2name(tmp_x, tmp_y)] = 1
-
-    square = 1
-    direction = "right"
-
-    while square < n:
-        square += 1
-        if VERBOSE > 0:
-            print("square %d" % square)
-
-        if direction == "right":
+    if direction == "right":
+        if VERBOSE > 1:
+            print("moving right")
+        x += 1
+        if x > max_x:
             if VERBOSE > 1:
-                print("moving right")
-            tmp_x += 1
-            if tmp_x > max_x:
-                if VERBOSE > 1:
-                    print("turning up")
-                max_x = tmp_x
-                direction = "up"
+                print("turning up")
+            max_x = x
+            direction = "up"
 
-        elif direction == "left":
+    elif direction == "left":
+        if VERBOSE > 1:
+            print("moving left")
+        x -= 1
+        if  x < min_x:
             if VERBOSE > 1:
-                print("moving left")
-            tmp_x -= 1
-            if tmp_x < min_x:
-                if VERBOSE > 1:
-                    print("turning down")
-                min_x = tmp_x
-                direction = "down"
+                print("turning down")
+            min_x = x
+            direction = "down"
 
-        elif direction == "up":
+    elif direction == "up":
+        if VERBOSE > 1:
+            print("moving up")
+        y += 1
+        if y > max_y:
             if VERBOSE > 1:
-                print("moving up")
-            tmp_y += 1
-            if tmp_y > max_y:
-                if VERBOSE > 1:
-                    print("turning left")
-                max_y = tmp_y
-                direction = "left"
+                print("turning left")
+            max_y = y
+            direction = "left"
 
-        elif direction == "down":
+    elif direction == "down":
+        if VERBOSE > 1:
+            print("moving down")
+        y -= 1
+        if y < min_y:
             if VERBOSE > 1:
-                print("moving down")
-            tmp_y -= 1
-            if tmp_y < min_y:
-                if VERBOSE > 1:
-                    print("turning right")
-                min_y = tmp_y
-                direction = "right"
+                print("turning right")
+            min_y = y
+            direction = "right"
 
-        # Get set of value from elements around the given element.
-        # Add the element with the sum to the database
-        elem_sum = get_element_sum(elements, tmp_x, tmp_y)
-        elements[coord2name(tmp_x, tmp_y)] = elem_sum
+    return (x, y, min_x, max_x, min_y, max_y, direction)
 
 
-    return (tmp_x, tmp_y)
+#-------------------------------------------------------------------
+# get_init_position
+#
+# (x, y, min_x, max_x, min_y, max_y, dir)
+#-------------------------------------------------------------------
+def get_init_position():
+    return (0, 0, 0, 0, 0, 0, "right")
+
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def num2distance(n):
+    my_state = get_init_position()
+    ctr = 1
+    while ctr < n:
+        my_state = get_next_spiral_position(my_state)
+        ctr += 1
+    (x, y, min_x, max_x, min_y, max_y, direction) = my_state
+    return get_manhattan_distance(x, y)
 
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def part_one():
     print("Part one.")
-    print("Distance for square 361527: ", get_manhattan_distance(get_spiral_position(361527)))
+    print("Distance for square 361527: ", num2distance(361527))
     print()
+
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def part_two():
+    print("Part two.")
+
+    elements = {}
+    acc = 1
+    state = get_init_position()
+    elements[coord2name(0,0)] = (state, acc)
+
+    while (acc <= 361527):
+        state = get_next_spiral_position(state)
+        (x, y, min_x, max_x, min_y, max_y, direction) = state
+        acc = get_element_sum(elements, x, y)
+        elements[coord2name(x,y)] = (state, acc)
+
+    print("Next value after 361527: ", acc)
+    print()
+
 
 #-------------------------------------------------------------------
 # test_one()
 #-------------------------------------------------------------------
 def test_one():
     print("Tests coordinates:")
-    print("Distance for square 1:    ", get_manhattan_distance(get_spiral_position(1)))
-    print("Distance for square 12:   ", get_manhattan_distance(get_spiral_position(12)))
-    print("Distance for square 23:   ", get_manhattan_distance(get_spiral_position(23)))
-    print("Distance for square 1024: ", get_manhattan_distance(get_spiral_position(1024)))
+    print("Distance for square 1:    ", num2distance(1))
+    print("Distance for square 12:   ", num2distance(12))
+    print("Distance for square 23:   ", num2distance(23))
+    print("Distance for square 1024: ", num2distance(1024))
     print("")
 
 
@@ -157,8 +176,8 @@ def test_one():
 def main():
     test_one()
     part_one()
+    part_two()
 
-    print(coord2name(2, -4))
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
