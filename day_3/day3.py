@@ -171,11 +171,25 @@ def test_one():
 
 
 #-------------------------------------------------------------------
+# test_two()
+#-------------------------------------------------------------------
+def test_two():
+    print("Tests sums:")
+    print("Sum for square 2 (1):    ", num2distance(1))
+    print("Sum for square 4 (4):    ", num2distance(1))
+    print("Sum for square 6 (10):   ", num2distance(1))
+    print("Sum for square 14 (122): ", num2distance(12))
+    print("Sum for square 23 (806): ", num2distance(23))
+    print("")
+
+
+#-------------------------------------------------------------------
 # main()
 #-------------------------------------------------------------------
 def main():
     test_one()
     part_one()
+    test_two()
     part_two()
 
 
