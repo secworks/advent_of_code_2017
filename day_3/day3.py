@@ -29,6 +29,32 @@ def get_manhattan_distance(coord):
 
 
 #-------------------------------------------------------------------
+# coord2name()
+#
+# Convert coordinate to a unique name.
+#-------------------------------------------------------------------
+def coord2name(x, y):
+    return 'x' + str(x) + '_' + 'y' + str(y)
+
+
+#-------------------------------------------------------------------
+# get_element_sum()
+#
+# Given coordinates for an element and a database of elements,
+# extract the (possible) neighbour elements. Return the sum
+# of all values of the neighbour elements.
+#-------------------------------------------------------------------
+def get_element_sum(elements, x, y):
+    acc = 0
+    for i in range((x - 1), 3):
+        for j in range((y - 1), 3):
+            name = coord2name(i, j)
+            if name in elements:
+                acc += elements[name]
+    return acc
+
+
+#-------------------------------------------------------------------
 # get_spiral_position()
 #
 # Get the (x, y) spiral positon for a given value n where
@@ -44,6 +70,10 @@ def get_spiral_position(n):
 
     tmp_x = 0
     tmp_y = 0
+
+    # Create db with elements and add the initial origo element.
+    elements = {}
+    elements[coord2name(tmp_x, tmp_y)] = 1
 
     square = 1
     direction = "right"
@@ -93,6 +123,12 @@ def get_spiral_position(n):
                 min_y = tmp_y
                 direction = "right"
 
+        # Get set of value from elements around the given element.
+        # Add the element with the sum to the database
+        elem_sum = get_element_sum(elements, tmp_x, tmp_y)
+        elements[coord2name(tmp_x, tmp_y)] = elem_sum
+
+
     return (tmp_x, tmp_y)
 
 
@@ -122,6 +158,7 @@ def main():
     test_one()
     part_one()
 
+    print(coord2name(2, -4))
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
