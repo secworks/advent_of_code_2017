@@ -15,7 +15,7 @@
 
 import sys
 
-VERBOSE = 0
+VERBOSE = 1
 
 
 #-------------------------------------------------------------------
@@ -47,9 +47,9 @@ def get_element_sum(elements, x, y):
     my_name = coord2name(x, y)
     print("coordinate we want area for: %s" % (my_name))
     acc = 0
-    for i in range((x - 1), 3):
-        for j in range((y - 1), 3):
-            name = coord2name(i, j)
+    for i in range(3):
+        for j in range(3):
+            name = coord2name((x + j -1), (y + i - 1))
             print("Testing coordinate: %s" % (name))
             if name in elements and (name != my_name):
                 (state, value) = elements[name]
@@ -66,8 +66,6 @@ def get_element_sum(elements, x, y):
 # Given a set of coordinates, direction and current min-, max-
 # values return the updated coordinates, direction and min-, max-
 # values in the spiral pattern.
-#
-# The trick is to look left in a given position.
 #-------------------------------------------------------------------
 def get_next_spiral_position(state):
     (x, y, min_x, max_x, min_y, max_y, direction) = state
@@ -95,7 +93,7 @@ def get_next_spiral_position(state):
     elif direction == "up":
         if VERBOSE > 1:
             print("moving up")
-        y += 1
+        y -= 1
         if y > max_y:
             if VERBOSE > 1:
                 print("turning left")
@@ -105,7 +103,7 @@ def get_next_spiral_position(state):
     elif direction == "down":
         if VERBOSE > 1:
             print("moving down")
-        y -= 1
+        y += 1
         if y < min_y:
             if VERBOSE > 1:
                 print("turning right")
