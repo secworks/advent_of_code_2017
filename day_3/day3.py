@@ -89,7 +89,7 @@ def get_next_spiral_position(state):
     elif direction == "up":
         print("moving up")
         y -= 1
-        if y > min_y:
+        if y < min_y:
             print("turning left")
             min_y = y
             direction = "left"
@@ -183,10 +183,19 @@ def test_two():
 #    print("Sum for square 2 (1):    ", get_element_acc(2))
 #    print("Sum for square 3 (2):    ", get_element_acc(3))
 #    print("Sum for square 4 (4):    ", get_element_acc(4))
-    print("Sum for square 5 (5):   ", get_element_acc(5))
+#    print("Sum for square 5 (5):   ", get_element_acc(5))
 #    print("Sum for square 6 (10):  ", get_element_acc(6))
-#   print("Sum for square 14 (122): ", part_two(14))
-#   print("Sum for square 23 (806): ", part_two(23))
+#    print("Sum for square 7 (11):  ", get_element_acc(7))
+#    print("Sum for square 7 (11):  ", get_element_acc(7))
+#    print("Sum for square 8 (23):  ", get_element_acc(8))
+#    print("Sum for square 9 (25):  ", get_element_acc(9))
+#    print("Sum for square 10 (26):  ", get_element_acc(10))
+#    print("Sum for square 11 (54):  ", get_element_acc(11))
+#    print("Sum for square 12 (57):  ", get_element_acc(12))
+#    print("Sum for square 13 (59):  ", get_element_acc(13))
+#    print("Sum for square 14 (122):  ", get_element_acc(14))
+    print("Sum for square 15 (133):  ", get_element_acc(15))
+
     print("")
 
 
