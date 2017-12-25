@@ -45,18 +45,13 @@ def coord2name(x, y):
 #-------------------------------------------------------------------
 def get_element_sum(elements, x, y):
     my_name = coord2name(x, y)
-    print("coordinate we want area for: %s" % (my_name))
     acc = 0
     for i in range(3):
         for j in range(3):
             name = coord2name((x + j -1), (y + i - 1))
-            print("Testing coordinate: %s" % (name))
             if name in elements and (name != my_name):
                 (state, value) = elements[name]
                 acc += value
-                print("Found neighbour %s with value %d" % (name, value))
-    print("sum for coordingte %s: %d" % (my_name, acc))
-    print("")
     return acc
 
 
@@ -71,34 +66,26 @@ def get_next_spiral_position(state):
     (x, y, min_x, max_x, min_y, max_y, direction) = state
 
     if direction == "right":
-        print("moving right")
         x += 1
         if x > max_x:
-            print("turning up")
             max_x = x
             direction = "up"
 
     elif direction == "left":
-        print("moving left")
         x -= 1
         if  x < min_x:
-            print("turning down")
             min_x = x
             direction = "down"
 
     elif direction == "up":
-        print("moving up")
         y -= 1
         if y < min_y:
-            print("turning left")
             min_y = y
             direction = "left"
 
     elif direction == "down":
-        print("moving down")
         y += 1
         if y > max_y:
-            print("turning right")
             max_y = y
             direction = "right"
 
@@ -126,8 +113,10 @@ def num2distance(n):
     return get_manhattan_distance(x, y)
 
 
-
 #-------------------------------------------------------------------
+# get_element_acc()
+#
+# Get the accumulated value for a given element.
 #-------------------------------------------------------------------
 def get_element_acc(n):
     elements = {}
@@ -157,9 +146,21 @@ def part_one():
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def part_two(n):
+    elements = {}
+    ctr = 1
+    acc = 1
+    state = get_init_position()
+    elements[coord2name(0,0)] = (state, acc)
+
+    while (acc < n):
+        ctr += 1
+        state = get_next_spiral_position(state)
+        (x, y, min_x, max_x, min_y, max_y, direction) = state
+        acc = get_element_sum(elements, x, y)
+        elements[coord2name(x,y)] = (state, acc)
+
     print("Part two.")
-    print("Next value after 361527: ", get_element_acc(361527))
-    print()
+    print("First value > %d is %d, found for element %d" % (n, acc, ctr))
 
 
 #-------------------------------------------------------------------
@@ -179,23 +180,22 @@ def test_one():
 #-------------------------------------------------------------------
 def test_two():
     print("Tests sums:")
-#    print("Sum for square 1 (1):    ", get_element_acc(1))
-#    print("Sum for square 2 (1):    ", get_element_acc(2))
-#    print("Sum for square 3 (2):    ", get_element_acc(3))
-#    print("Sum for square 4 (4):    ", get_element_acc(4))
-#    print("Sum for square 5 (5):   ", get_element_acc(5))
-#    print("Sum for square 6 (10):  ", get_element_acc(6))
-#    print("Sum for square 7 (11):  ", get_element_acc(7))
-#    print("Sum for square 7 (11):  ", get_element_acc(7))
-#    print("Sum for square 8 (23):  ", get_element_acc(8))
-#    print("Sum for square 9 (25):  ", get_element_acc(9))
-#    print("Sum for square 10 (26):  ", get_element_acc(10))
-#    print("Sum for square 11 (54):  ", get_element_acc(11))
-#    print("Sum for square 12 (57):  ", get_element_acc(12))
-#    print("Sum for square 13 (59):  ", get_element_acc(13))
-#    print("Sum for square 14 (122):  ", get_element_acc(14))
+    print("Sum for square 1 (1):    ", get_element_acc(1))
+    print("Sum for square 2 (1):    ", get_element_acc(2))
+    print("Sum for square 3 (2):    ", get_element_acc(3))
+    print("Sum for square 4 (4):    ", get_element_acc(4))
+    print("Sum for square 5 (5):   ", get_element_acc(5))
+    print("Sum for square 6 (10):  ", get_element_acc(6))
+    print("Sum for square 7 (11):  ", get_element_acc(7))
+    print("Sum for square 7 (11):  ", get_element_acc(7))
+    print("Sum for square 8 (23):  ", get_element_acc(8))
+    print("Sum for square 9 (25):  ", get_element_acc(9))
+    print("Sum for square 10 (26):  ", get_element_acc(10))
+    print("Sum for square 11 (54):  ", get_element_acc(11))
+    print("Sum for square 12 (57):  ", get_element_acc(12))
+    print("Sum for square 13 (59):  ", get_element_acc(13))
+    print("Sum for square 14 (122):  ", get_element_acc(14))
     print("Sum for square 15 (133):  ", get_element_acc(15))
-
     print("")
 
 
@@ -204,9 +204,9 @@ def test_two():
 #-------------------------------------------------------------------
 def main():
 #    test_one()
-#    part_one()
-    test_two()
-#    part_two()
+#    test_two()
+    part_one()
+    part_two(361527)
 
 
 #-------------------------------------------------------------------
