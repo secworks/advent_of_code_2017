@@ -44,13 +44,19 @@ def coord2name(x, y):
 # of all values of the neighbour elements.
 #-------------------------------------------------------------------
 def get_element_sum(elements, x, y):
+    my_name = coord2name(x, y)
+    print("coordinate we want area for: %s" % (my_name))
     acc = 0
     for i in range((x - 1), 3):
         for j in range((y - 1), 3):
             name = coord2name(i, j)
-            if name in elements:
+            print("Testing coordinate: %s" % (name))
+            if name in elements and (name != my_name):
                 (state, value) = elements[name]
                 acc += value
+                print("Found neighbour %s with value %d" % (name, value))
+    print("sum for coordingte %s: %d" % (my_name, acc))
+    print("")
     return acc
 
 
@@ -141,13 +147,12 @@ def get_element_acc(n):
     elements[coord2name(0,0)] = (state, acc)
 
     while (ctr < n):
+        ctr += 1
         state = get_next_spiral_position(state)
         (x, y, min_x, max_x, min_y, max_y, direction) = state
         acc = get_element_sum(elements, x, y)
         elements[coord2name(x,y)] = (state, acc)
-        ctr += 1
 
-    print(elements)
     return acc
 
 
@@ -184,9 +189,12 @@ def test_one():
 #-------------------------------------------------------------------
 def test_two():
     print("Tests sums:")
-    print("Sum for square 2 (1):    ", get_element_acc(2))
-    print("Sum for square 4 (4):    ", get_element_acc(4))
-    print("Sum for square 6 (10):   ", get_element_acc(6))
+#    print("Sum for square 1 (1):    ", get_element_acc(1))
+#    print("Sum for square 2 (1):    ", get_element_acc(2))
+#    print("Sum for square 3 (2):    ", get_element_acc(3))
+#    print("Sum for square 4 (4):    ", get_element_acc(4))
+    print("Sum for square 5 (5):   ", get_element_acc(5))
+#    print("Sum for square 6 (10):  ", get_element_acc(6))
 #   print("Sum for square 14 (122): ", part_two(14))
 #   print("Sum for square 23 (806): ", part_two(23))
     print("")
@@ -196,8 +204,8 @@ def test_two():
 # main()
 #-------------------------------------------------------------------
 def main():
-    test_one()
-    part_one()
+#    test_one()
+#    part_one()
     test_two()
 #    part_two()
 
