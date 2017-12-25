@@ -4,7 +4,7 @@
 #
 # day_3.py
 # --------
-# Solution for Advent of code 2017, day 1.
+# Solution for Advent of code 2017, day 3.
 # http://adventofcode.com/2017/day/3
 #
 # Status: Done.
