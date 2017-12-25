@@ -71,43 +71,35 @@ def get_next_spiral_position(state):
     (x, y, min_x, max_x, min_y, max_y, direction) = state
 
     if direction == "right":
-        if VERBOSE > 1:
-            print("moving right")
+        print("moving right")
         x += 1
         if x > max_x:
-            if VERBOSE > 1:
-                print("turning up")
+            print("turning up")
             max_x = x
             direction = "up"
 
     elif direction == "left":
-        if VERBOSE > 1:
-            print("moving left")
+        print("moving left")
         x -= 1
         if  x < min_x:
-            if VERBOSE > 1:
-                print("turning down")
+            print("turning down")
             min_x = x
             direction = "down"
 
     elif direction == "up":
-        if VERBOSE > 1:
-            print("moving up")
+        print("moving up")
         y -= 1
-        if y > max_y:
-            if VERBOSE > 1:
-                print("turning left")
-            max_y = y
+        if y > min_y:
+            print("turning left")
+            min_y = y
             direction = "left"
 
     elif direction == "down":
-        if VERBOSE > 1:
-            print("moving down")
+        print("moving down")
         y += 1
-        if y < min_y:
-            if VERBOSE > 1:
-                print("turning right")
-            min_y = y
+        if y > max_y:
+            print("turning right")
+            max_y = y
             direction = "right"
 
     return (x, y, min_x, max_x, min_y, max_y, direction)
