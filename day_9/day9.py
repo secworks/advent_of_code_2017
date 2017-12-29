@@ -29,6 +29,18 @@ def get_input():
 
 
 #-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def get_score(s):
+    return 2
+
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def get_groups(s):
+    return 2
+
+
+#-------------------------------------------------------------------
 # part_one()
 #-------------------------------------------------------------------
 def part_one(string):
@@ -49,7 +61,27 @@ def part_two(string):
 #-------------------------------------------------------------------
 def test_one():
     print("Tests part one:")
-    print("")
+    print("Check number of groups:")
+    print("'{}' should be 1 group: ", get_groups('{}'))
+    print("'{{{}}}' should be 3 groups: ", get_groups('{{{}}}'))
+    print("'{{},{}}' should be 3 groups: ", get_groups('{{},{}}'))
+    print("'{{{},{},{{}}}}' should be 6 groups: ", get_groups('{{{},{},{{}}}}'))
+    print("'{<{},{},{{}}>}' should be 1 group with garbage: ", get_groups('{<{},{},{{}}>}'))
+    print("'{<a>,<a>,<a>,<a>}' should be 1 group: ", get_groups('{<a>,<a>,<a>,<a>}'))
+    print("'{{<a>},{<a>},{<a>},{<a>}}' should be 5 groups: ", get_groups('{{<a>},{<a>},{<a>},{<a>}}'))
+    print("'{{<!>},{<!>},{<!>},{<a>}}' should be 2 groups: ", get_groups('{{<!>},{<!>},{<!>},{<a>}}'))
+    print()
+
+    print("Check scores:")
+    print("'{}' should be 1: ", get_score('{}'))
+    print("'{{{}}}' should be 6 ", get_score('{{{}}}'))
+    print("'{{},{}}' should be 5: ", get_score('{{},{}}'))
+    print("'{{{},{},{{}}}}' should be 16: ", get_score('{{{},{},{{}}}}'))
+    print("'{<a>,<a>,<a>,<a>}' should be 1: ", get_score('{<a>,<a>,<a>,<a>}'))
+    print("'{{<ab>},{<ab>},{<ab>},{<ab>}}' should be 9: ", get_score('{{<ab>},{<ab>},{<ab>},{<ab>}}'))
+    print("'{{<!!>},{<!!>},{<!!>},{<!!>}}' should be 9: ", get_score('{{<!!>},{<!!>},{<!!>},{<!!>}}'))
+    print("'{{<a!>},{<a!>},{<a!>},{<ab>}}' should be 3: ", get_score('{{<a!>},{<a!>},{<a!>},{<ab>}}'))
+    print()
 
 
 #-------------------------------------------------------------------
@@ -66,6 +98,7 @@ def test_two():
 def main():
     my_input = get_input()
     print(my_input)
+    test_one()
 
 
 #-------------------------------------------------------------------
