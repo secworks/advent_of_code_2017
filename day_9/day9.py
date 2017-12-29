@@ -40,7 +40,7 @@ def filter_garbage(s):
     in_garbage = False
     i = 0
 
-    while i < len(s):
+    while i < slen:
         if s[i] == '!' and in_garbage:
             i += 2
 
@@ -70,8 +70,24 @@ def get_score(s):
 #-------------------------------------------------------------------
 def get_groups(s):
     fs = filter_garbage(s)
-    print(s, fs)
-    return 2
+    groups = 0
+    group_level = 0
+    acc = 0
+    slen = len(fs)
+    i = 0
+
+    while i < slen:
+        if s[i] == '{':
+            group_level += 1
+
+        elif s[i] == '}':
+            acc += group_level
+            groups += 1
+            group_level -= 1
+
+        i += 1
+
+    return groups
 
 
 #-------------------------------------------------------------------
