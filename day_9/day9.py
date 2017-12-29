@@ -29,6 +29,38 @@ def get_input():
 
 
 #-------------------------------------------------------------------
+# filter_garbage()
+#
+# Given a string s, returns a filtered version of s where
+# garbage has been removed.
+#-------------------------------------------------------------------
+def filter_garbage(s):
+    fs = ""
+    slen = len(s)
+    in_garbage = False
+    i = 0
+
+    while i < len(s):
+        if s[i] == '!' and in_garbage:
+            i += 2
+
+        elif s[i] == '>' and in_garbage:
+            in_garbage = False
+            i += 1
+
+        elif s[i] == '<' and not in_garbage:
+            in_garbage = True
+            i += 1
+
+        else:
+            if not in_garbage:
+                fs += s[i]
+            i += 1
+
+    return fs
+
+
+#-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def get_score(s):
     return 2
@@ -98,7 +130,10 @@ def test_two():
 def main():
     my_input = get_input()
     print(my_input)
-    test_one()
+    print()
+    print(filter_garbage(my_input))
+
+#    test_one()
 
 
 #-------------------------------------------------------------------
