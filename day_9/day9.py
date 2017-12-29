@@ -24,7 +24,8 @@ VERBOSE = 0
 def get_input():
     with open('my_input.txt','r') as f:
         test_string = f.read()
-    return test_string.strip()
+    stripped = test_string.strip()
+    return stripped
 
 
 #-------------------------------------------------------------------
@@ -64,6 +65,7 @@ def test_two():
 #-------------------------------------------------------------------
 def main():
     my_input = get_input()
+    print(my_input)
 
 
 #-------------------------------------------------------------------
