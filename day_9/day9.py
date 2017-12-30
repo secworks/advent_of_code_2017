@@ -16,7 +16,7 @@
 import sys
 
 VERBOSE = 0
-
+RUN_TESTS = 0
 
 #-------------------------------------------------------------------
 # get_input()
@@ -38,6 +38,7 @@ def filter_garbage(s):
     fs = ""
     slen = len(s)
     in_garbage = False
+    ctr = 0
     i = 0
 
     while i < slen:
@@ -57,19 +58,13 @@ def filter_garbage(s):
                 fs += s[i]
             i += 1
 
-    return fs
+    return fs, ctr
 
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
-def get_score(s):
-    return 2
-
-
-#-------------------------------------------------------------------
-#-------------------------------------------------------------------
-def get_groups(s):
-    fs = filter_garbage(s)
+def get_groups_score(s):
+    fs, ctr = filter_garbage(s)
     groups = 0
     group_level = 0
     acc = 0
@@ -77,24 +72,46 @@ def get_groups(s):
     i = 0
 
     while i < slen:
-        if s[i] == '{':
+        if fs[i] == '{':
             group_level += 1
 
-        elif s[i] == '}':
+        if fs[i] == '}':
             acc += group_level
             groups += 1
             group_level -= 1
 
         i += 1
 
+    return groups, acc
+
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def get_garbage(s):
+    fs, ctr = filter_garbage(s)
+    return ctr
+
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def get_groups(s):
+    groups, acc = get_groups_score(s)
     return groups
+
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def get_score(s):
+    groups, acc = get_groups_score(s)
+    return acc
 
 
 #-------------------------------------------------------------------
 # part_one()
 #-------------------------------------------------------------------
-def part_one(string):
+def part_one(s):
     print("Result part one: ")
+    print("Score for my input:", get_score(s))
     print("")
 
 
@@ -139,6 +156,14 @@ def test_one():
 #-------------------------------------------------------------------
 def test_two():
     print("Tests part two:")
+    print("Check amount of garbage:")
+    print("'<>' should be 0: ", get_garbage('<>'))
+    print("'<123451234512345>' should be 15: ", get_garbage('<123451234512345>'))
+    print("'<<<<>' should be 3: ", get_garbage('<<<<>'))
+    print("'<{!>}>' should be 2: ", get_garbage('<{!>}>'))
+    print("'<!!>' should be 0: ", get_garbage('<!!>'))
+    print("'<!!!>>' should be : ", get_garbage('<!!!>>'))
+    print("'<{oxi!a,<{i<a>' should be 10: ", get_garbage('<{oxi!a,<{i<a>'))
     print("")
 
 
@@ -146,8 +171,12 @@ def test_two():
 # main()
 #-------------------------------------------------------------------
 def main():
-    my_input = get_input()
-    test_one()
+   my_input = get_input()
+
+   if RUN_TESTS:
+       test_one()
+   else:
+       part_one(my_input)
 
 
 #-------------------------------------------------------------------
