@@ -22,16 +22,38 @@ RUN_TESTS = 0
 # get_input()
 #-------------------------------------------------------------------
 def get_input():
+    data = []
     with open('my_input.txt','r') as f:
-        test_string = f.read()
-    stripped = test_string.strip()
-    return stripped
+        for line in f:
+            data.append(line.strip())
+    return data
 
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def build_db(s):
+    db = {}
+    for e in s:
+        if "->" in e:
+            splitline = e.split()
+            name = splitline[0]
+            weight = splitline[1][1:-1]
+            children = splitline[3:]
+            db[name] = ("node", (weight, children))
+
+        else:
+            name, weight = e.split()
+            weight = weight[1:-1]
+            db[name] = ("leaf", weight)
+
+    print(db)
+    return db
 
 #-------------------------------------------------------------------
 # part_one()
 #-------------------------------------------------------------------
 def part_one(s):
+    build_db(s)
     print("Result part one: ")
     print("")
 
