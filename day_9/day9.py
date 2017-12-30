@@ -7,7 +7,7 @@
 # Solution for Advent of code 2017, day 9.
 # http://adventofcode.com/2017/day/9
 #
-# Status: Not done.
+# Status: Done.
 #
 # Joachim Strömbergson 2017
 #
