@@ -56,6 +56,8 @@ def filter_garbage(s):
         else:
             if not in_garbage:
                 fs += s[i]
+            else:
+                ctr += 1
             i += 1
 
     return fs, ctr
@@ -118,8 +120,8 @@ def part_one(s):
 #-------------------------------------------------------------------
 # part_two()
 #-------------------------------------------------------------------
-def part_two(string):
-    print("Result part two: ")
+def part_two(s):
+    print("Result part two: ", get_garbage(s))
     print("")
 
 
@@ -175,8 +177,10 @@ def main():
 
    if RUN_TESTS:
        test_one()
+       test_two()
    else:
        part_one(my_input)
+       part_two(my_input)
 
 
 #-------------------------------------------------------------------
