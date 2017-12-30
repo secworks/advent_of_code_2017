@@ -39,21 +39,41 @@ def build_db(s):
             name = splitline[0]
             weight = splitline[1][1:-1]
             children = splitline[3:]
-            db[name] = ("node", (weight, children))
+            db[name] = ("node", weight, children)
 
         else:
             name, weight = e.split()
             weight = weight[1:-1]
             db[name] = ("leaf", weight)
 
-    print(db)
     return db
+
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def find_root(db):
+    # Get a list of all nodes.
+    nodes = []
+    for e in db:
+        if db[e][0] == "node":
+            nodes.append(e)
+    print("Nodes:", nodes)
+
+    root = ""
+    for n in nodes:
+        for i in nodes:
+            children = db[i][2]
+            if n != i:
+                print(db[i][2])
+
+
 
 #-------------------------------------------------------------------
 # part_one()
 #-------------------------------------------------------------------
 def part_one(s):
-    build_db(s)
+    db = build_db(s)
+    root = find_root(db)
     print("Result part one: ")
     print("")
 
