@@ -18,6 +18,17 @@ import sys
 VERBOSE = 0
 RUN_TESTS = 0
 
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+class Node:
+    def __init__(self, name, ntype, weight, children = None):
+        self.name = name
+        self.type = ntype
+        self.weight = weight
+        self.children = children
+
+
 #-------------------------------------------------------------------
 # get_input()
 #-------------------------------------------------------------------
@@ -30,50 +41,60 @@ def get_input():
 
 
 #-------------------------------------------------------------------
+# build_nodelist()
+#
+# Parse the given input a create a list of nodes with their
+# type, name etc for each node.
 #-------------------------------------------------------------------
-def build_db(s):
-    db = {}
+def build_nodelist(s):
+    db = []
     for e in s:
         if "->" in e:
             splitline = e.split()
             name = splitline[0]
             weight = splitline[1][1:-1]
             children = splitline[3:]
-            db[name] = ("node", weight, children)
+            node = Node(name, "parent", weight, children)
+            db.append(node)
 
         else:
             name, weight = e.split()
             weight = weight[1:-1]
-            db[name] = ("leaf", weight)
+            node = Node(name, "leaf", weight, None)
+            db.append(node)
 
     return db
 
 
 #-------------------------------------------------------------------
+# find_root(nodes)
+#
+# Given a list of nodes, walk through the nodes. If a node is
+# parent node, add its children to a set of all children. We also
+# save the names of all parents in a list. We then walk through
+# the list of parents to find which parent node is not in the set.
+# That node is not itself a child and thus the root parent.
 #-------------------------------------------------------------------
-def find_root(db):
-    # Get a list of all nodes.
-    nodes = []
-    for e in db:
-        if db[e][0] == "node":
-            nodes.append(e)
-    print("Nodes:", nodes)
+def find_root(nodes):
+    children = set()
+    parents = []
 
-    root = ""
-    for n in nodes:
-        for i in nodes:
-            children = db[i][2]
-            if n != i:
-                print(db[i][2])
+    for node in nodes:
+        if node.type == "parent":
+            parents.append(node.name)
+            children.update(node.children)
 
+    for name in parents:
+        if name not in children:
+            print("probably root:", name)
 
 
 #-------------------------------------------------------------------
 # part_one()
 #-------------------------------------------------------------------
 def part_one(s):
-    db = build_db(s)
-    root = find_root(db)
+    my_nodes= build_nodelist(s)
+    root = find_root(my_nodes)
     print("Result part one: ")
     print("")
 
