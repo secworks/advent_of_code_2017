@@ -20,6 +20,9 @@ RUN_TESTS = 0
 
 
 #-------------------------------------------------------------------
+# Node()
+#
+# A simple class used as struct for node information.
 #-------------------------------------------------------------------
 class Node:
     def __init__(self, name, ntype, weight, children = None):
@@ -92,7 +95,7 @@ def find_root(nodes):
 
         elif node.type == 'parent':
             children.update(node.children)
-    return n.difference(children)
+    return n.difference(children).pop()
 
 
 #-------------------------------------------------------------------
@@ -101,7 +104,7 @@ def find_root(nodes):
 def part_one(s):
     my_nodes= build_nodelist(s)
     root = find_root(my_nodes)
-    print("Result part one: ", root)
+    print("Result part one: %s" % (root))
     print("")
 
 
