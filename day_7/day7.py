@@ -38,7 +38,6 @@ def get_input():
     with open('my_input.txt','r') as f:
         for line in f:
             data.append(line.strip())
-
     return data
 
 
@@ -46,59 +45,54 @@ def get_input():
 # build_nodelist()
 #
 # Parse the given input a create a list of nodes with their
-# type, name etc for each node.
+# type, name etc for each node. We do some really hairy
+# parsing with strip, split, replace and subscripting.
 #-------------------------------------------------------------------
 def build_nodelist(s):
     db = []
+    pctr = 0
+    cctr = 0
 
     for e in s:
         if '->' in e:
-            splitline = e.split()
-            name = splitline[0]
             ntype = 'parent'
-            weight = splitline[1][1:-1]
-            children = splitline[3:]
+            name = e.split('->')[0].split()[0]
+            weight = e.split('->')[0].split()[1][1:-1]
+            children = e.split('->')[1].replace(',', '').split()
+            pctr += 1
 
         else:
-            name, weight = e.split()
             ntype = 'leaf'
+            name, weight = e.split()
             weight = weight[1:-1]
             children = None
+            cctr += 1
 
         node = Node(name, ntype, weight, children)
         db.append(node)
-
     return db
 
 
 #-------------------------------------------------------------------
 # find_root(nodes)
 #
-# Given a list of nodes, walk through the nodes. If a node is
-# parent node, add its children to a set of all children. We also
-# save the names of all parents in a list. We then walk through
-# the list of parents to find which parent node is not in the set.
-# That node is not itself a child and thus the root parent.
+# Given a list of nodes, walk through the nodes and create two
+# sets. One with all nodes and one with all children. The root is
+# then the node among all nodes that is not also a child.
 #-------------------------------------------------------------------
 def find_root(nodes):
     children = set()
-    parents = set()
     n = set()
 
+    # Create set with all children.
     for node in nodes:
         n.add(node.name)
-        if node.type == 'parent':
-            parents.add(node.name)
+        if node.type == 'leaf':
+            children.add(node.name)
+
+        elif node.type == 'parent':
             children.update(node.children)
-
-    print(len(parents.difference(children)))
-    print(len(n.difference(children)))
-    print(len(n))
-
-    print("Stats:")
-    print("Total nodes:", len(nodes))
-    print("Children:", len(children))
-    print("Parents:", len(parents))
+    return n.difference(children)
 
 
 #-------------------------------------------------------------------
@@ -107,7 +101,7 @@ def find_root(nodes):
 def part_one(s):
     my_nodes= build_nodelist(s)
     root = find_root(my_nodes)
-    print("Result part one: ")
+    print("Result part one: ", root)
     print("")
 
 
