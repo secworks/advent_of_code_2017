@@ -34,9 +34,11 @@ class Node:
 #-------------------------------------------------------------------
 def get_input():
     data = []
+
     with open('my_input.txt','r') as f:
         for line in f:
             data.append(line.strip())
+
     return data
 
 
@@ -48,20 +50,23 @@ def get_input():
 #-------------------------------------------------------------------
 def build_nodelist(s):
     db = []
+
     for e in s:
-        if "->" in e:
+        if '->' in e:
             splitline = e.split()
             name = splitline[0]
+            ntype = 'parent'
             weight = splitline[1][1:-1]
             children = splitline[3:]
-            node = Node(name, "parent", weight, children)
-            db.append(node)
 
         else:
             name, weight = e.split()
+            ntype = 'leaf'
             weight = weight[1:-1]
-            node = Node(name, "leaf", weight, None)
-            db.append(node)
+            children = None
+
+        node = Node(name, ntype, weight, children)
+        db.append(node)
 
     return db
 
@@ -77,16 +82,23 @@ def build_nodelist(s):
 #-------------------------------------------------------------------
 def find_root(nodes):
     children = set()
-    parents = []
+    parents = set()
+    n = set()
 
     for node in nodes:
-        if node.type == "parent":
-            parents.append(node.name)
+        n.add(node.name)
+        if node.type == 'parent':
+            parents.add(node.name)
             children.update(node.children)
 
-    for name in parents:
-        if name not in children:
-            print("probably root:", name)
+    print(len(parents.difference(children)))
+    print(len(n.difference(children)))
+    print(len(n))
+
+    print("Stats:")
+    print("Total nodes:", len(nodes))
+    print("Children:", len(children))
+    print("Parents:", len(parents))
 
 
 #-------------------------------------------------------------------
