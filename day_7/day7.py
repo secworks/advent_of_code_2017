@@ -77,6 +77,21 @@ def build_nodelist(s):
 
 
 #-------------------------------------------------------------------
+# build_tree()
+#
+# Given a db of nodes and the name of the root, we recursively
+# build upp the tree until all nodes have been added.
+#-------------------------------------------------------------------
+def build_tree(root, nodes):
+    print("Building subtree for:", root)
+
+    node = nodes.pop(root)
+    if node.type != 'leaf':
+        node.children = [build_tree(n, nodes) for n in node.children]
+    return node
+
+
+#-------------------------------------------------------------------
 # find_root(nodes)
 #
 # Given a list of nodes, walk through the nodes and create two
