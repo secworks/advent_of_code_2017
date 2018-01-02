@@ -115,14 +115,30 @@ def find_root(nodes):
 # return the name and weight of the unbalanced node.
 #-------------------------------------------------------------------
 def find_unbalanced_node(node):
-    print("checking weights for node:", node.weight)
-
     if node.type == 'leaf':
+        # Leaf nodes are always balanced and just returns
+        # its own name and weight
         return (True, node.name, node.weight, node.weight)
 
     else:
-        child_weights = [find_unbalanced_node(n) for n in node.children]
-        return (True, node.name, node.weight, node.weight)
+        # Get balanced status from all children.
+        children = [find_unbalanced_node(n) for n in node.children]
+        acc = 0
+        for child in children:
+            (balanced, cname, cweight, nweight) = child
+            acc += int(nweight)
+            if not balanced:
+                #Propagate unbalanced node upwards.
+                return child
+
+        if acc != int(node.weight):
+            # This node is the one with incorrect weight and
+            # should propagate info upwards
+            print("Unbalanced node!", node.name, acc, node.weight)
+            return (False, node.name, acc, node.weight)
+
+        else:
+            return (True, node.name, acc, node.weight)
 
 
 #-------------------------------------------------------------------
