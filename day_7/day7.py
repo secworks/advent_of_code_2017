@@ -52,9 +52,7 @@ def get_input():
 # parsing with strip, split, replace and subscripting.
 #-------------------------------------------------------------------
 def build_nodelist(s):
-    db = []
-    pctr = 0
-    cctr = 0
+    db = {}
 
     for e in s:
         if '->' in e:
@@ -62,17 +60,15 @@ def build_nodelist(s):
             name = e.split('->')[0].split()[0]
             weight = e.split('->')[0].split()[1][1:-1]
             children = e.split('->')[1].replace(',', '').split()
-            pctr += 1
 
         else:
             ntype = 'leaf'
             name, weight = e.split()
             weight = weight[1:-1]
             children = None
-            cctr += 1
 
         node = Node(name, ntype, weight, children)
-        db.append(node)
+        db[name] = node
     return db
 
 
@@ -104,12 +100,12 @@ def find_root(nodes):
 
     # Create set with all children.
     for node in nodes:
-        n.add(node.name)
-        if node.type == 'leaf':
-            children.add(node.name)
+        n.add(node)
+        if nodes[node].type == 'leaf':
+            children.add(node)
 
-        elif node.type == 'parent':
-            children.update(node.children)
+        elif nodes[node].type == 'parent':
+            children.update(nodes[node].children)
     return n.difference(children).pop()
 
 
