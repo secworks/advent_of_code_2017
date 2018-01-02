@@ -123,23 +123,11 @@ def part_one(s):
 # part_two()
 #-------------------------------------------------------------------
 def part_two(s):
+    my_nodes= build_nodelist(s)
+    root = find_root(my_nodes)
+    my_tree = build_tree(root, my_nodes)
+
     print("Result part two: ")
-    print("")
-
-
-#-------------------------------------------------------------------
-# test_one()
-#-------------------------------------------------------------------
-def test_one():
-    print("Tests part one:")
-    print()
-
-
-#-------------------------------------------------------------------
-# test_one()
-#-------------------------------------------------------------------
-def test_two():
-    print("Tests part two:")
     print("")
 
 
@@ -148,13 +136,8 @@ def test_two():
 #-------------------------------------------------------------------
 def main():
    my_input = get_input()
-
-   if RUN_TESTS:
-       test_one()
-       test_two()
-   else:
-       part_one(my_input)
-       part_two(my_input)
+   part_one(my_input)
+   part_two(my_input)
 
 
 #-------------------------------------------------------------------
