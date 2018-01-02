@@ -79,8 +79,6 @@ def build_nodelist(s):
 # build upp the tree until all nodes have been added.
 #-------------------------------------------------------------------
 def build_tree(root, nodes):
-    print("Building subtree for:", root)
-
     node = nodes.pop(root)
     if node.type != 'leaf':
         node.children = [build_tree(n, nodes) for n in node.children]
@@ -110,6 +108,24 @@ def find_root(nodes):
 
 
 #-------------------------------------------------------------------
+# find_unbalanced_node()
+#
+# Traverse a given tree depth first checking the weight of
+# all subtrees for each node. If the subtree is not unbalanced
+# return the name and weight of the unbalanced node.
+#-------------------------------------------------------------------
+def find_unbalanced_node(node):
+    print("checking weights for node:", node.weight)
+
+    if node.type == 'leaf':
+        return (True, node.name, node.weight, node.weight)
+
+    else:
+        child_weights = [find_unbalanced_node(n) for n in node.children]
+        return (True, node.name, node.weight, node.weight)
+
+
+#-------------------------------------------------------------------
 # part_one()
 #-------------------------------------------------------------------
 def part_one(s):
@@ -126,6 +142,7 @@ def part_two(s):
     my_nodes= build_nodelist(s)
     root = find_root(my_nodes)
     my_tree = build_tree(root, my_nodes)
+    unbalanced = find_unbalanced_node(my_tree)
 
     print("Result part two: ")
     print("")
