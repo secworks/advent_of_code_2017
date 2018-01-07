@@ -19,6 +19,17 @@ VERBOSE = 0
 
 
 #-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def update_knot_hash(state, lengths):
+    new_state = []
+    for s in state:
+        for l in lengths:
+            s = s + l
+        new_state.append(s)
+    return new_state
+
+
+#-------------------------------------------------------------------
 # part_one()
 #-------------------------------------------------------------------
 def part_one(my_input):
@@ -37,6 +48,10 @@ def part_two(my_input):
 # test_one()
 #-------------------------------------------------------------------
 def test_one():
+    state = [0, 1, 2, 3, 4]
+    lengths = [3, 4, 1, 5]
+    new_state = update_knot_hash(state, lengths)
+
     print("Test part one:")
     print("")
 
@@ -56,9 +71,7 @@ def main():
     my_input = [70,66,255,2,48,0,54,48,80,141,244,254,160,108,1,41]
 
     test_one()
-    test_two()
-    part_one(my_imput)
-    part_two(my_string)
+    part_one(my_input)
 
 
 #-------------------------------------------------------------------
