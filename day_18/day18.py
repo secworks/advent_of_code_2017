@@ -50,6 +50,33 @@ def build_regfile(sw):
             regfile[reg] = 0
     return regfile
 
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def execute(regs, prg):
+    pc = 0
+    ctr = 0
+    end = len(prg)
+    while (pc > 0) and (pc <= end):
+        instr = prg[pc]
+
+        if len(instr) = 3:
+            (op, reg, mod) = instr
+        else:
+            (op, reg) = instr
+
+        if op == "set":
+            regs[reg] = mod
+            pc += 1
+
+        if op == "mul":
+            regs[reg] = regs[reg] * mod
+            pc += 1
+
+        if op == "jgz":
+            pass
+
+
 #-------------------------------------------------------------------
 # main()
 #-------------------------------------------------------------------
