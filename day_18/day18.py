@@ -54,38 +54,65 @@ def build_regfile(sw):
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def execute(regs, prg):
+    print("here!")
+    sound   = 0
+    receive = 0
     pc = 0
     ctr = 0
     end = len(prg)
-    while (pc > 0) and (pc <= end):
+    while (pc >= 0) and (pc <= end):
         # Get next instruction, extract opcodes, regs and modifiers.
         # Handle different instruction formats during extraction.
         instr = prg[pc]
-        if len(instr) = 3:
+        print("Executing instruction:", instr)
+        if len(instr) == 3:
             (op, reg, mod) = instr
         else:
             (op, reg) = instr
 
         # Parse and execute each operation including variants.
-        if op == "set":
-            regs[reg] = mod
+        if op == "add":
             pc += 1
-
-        if op == "mul":
-            regs[reg] = regs[reg] * mod
-            pc += 1
+            if mod.isalpha():
+                regs[reg] = regs[reg] + regs[mod]
+            else:
+                regs[reg] = regs[reg] + int(mod)
 
         if op == "jgz":
             if reg.isalpha():
                 cond = regs[reg]
             else:
-                cond = reg
+                cond = int(reg)
             if cond > 0:
                 if mod.isalpha():
                     pc = pc + regs[mod]
                 else:
-                    pc = pc + mod
+                    pc = pc + int(mod)
 
+        if op == "mod":
+            pc += 1
+            if mod.isalpha():
+                regs[reg] = regs[reg] % regs[mod]
+            else:
+                regs[reg] = regs[reg] % int(mod)
+
+        if op == "mul":
+            pc += 1
+            regs[reg] = regs[reg] * int(mod)
+
+        if op == "rcv":
+            pc += 1
+            if regs[reg] != 0:
+                receive = sound
+                print("receive set to %d" % (receive))
+
+        if op == "set":
+            pc += 1
+            regs[reg] = int(mod)
+
+        if op == "snd":
+            pc += 1
+            sound = regs[reg]
 
 
 #-------------------------------------------------------------------
@@ -94,6 +121,7 @@ def execute(regs, prg):
 def main():
     my_program = load_sw()
     my_regfile = build_regfile(my_program)
+    execute(my_regfile, my_program)
 
 
 #-------------------------------------------------------------------
