@@ -58,13 +58,15 @@ def execute(regs, prg):
     ctr = 0
     end = len(prg)
     while (pc > 0) and (pc <= end):
+        # Get next instruction, extract opcodes, regs and modifiers.
+        # Handle different instruction formats during extraction.
         instr = prg[pc]
-
         if len(instr) = 3:
             (op, reg, mod) = instr
         else:
             (op, reg) = instr
 
+        # Parse and execute each operation including variants.
         if op == "set":
             regs[reg] = mod
             pc += 1
@@ -74,7 +76,16 @@ def execute(regs, prg):
             pc += 1
 
         if op == "jgz":
-            pass
+            if reg.isalpha():
+                cond = regs[reg]
+            else:
+                cond = reg
+            if cond > 0:
+                if mod.isalpha():
+                    pc = pc + regs[mod]
+                else:
+                    pc = pc + mod
+
 
 
 #-------------------------------------------------------------------
