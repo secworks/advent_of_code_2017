@@ -54,17 +54,19 @@ def build_regfile(sw):
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def execute(regs, prg):
-    print("here!")
     sound   = 0
     receive = 0
     pc = 0
     ctr = 0
     end = len(prg)
-    while (pc >= 0) and (pc <= end):
+    while (pc >= 0) and (pc <= end) and ctr < 10000:
+        ctr += 1
         # Get next instruction, extract opcodes, regs and modifiers.
         # Handle different instruction formats during extraction.
         instr = prg[pc]
-        print("Executing instruction:", instr)
+
+        print("Ctr: %d, PC: %d. Executing instruction:" % (ctr, pc), instr)
+
         if len(instr) == 3:
             (op, reg, mod) = instr
         else:
@@ -78,6 +80,7 @@ def execute(regs, prg):
             else:
                 regs[reg] = regs[reg] + int(mod)
 
+
         if op == "jgz":
             if reg.isalpha():
                 cond = regs[reg]
@@ -88,6 +91,9 @@ def execute(regs, prg):
                     pc = pc + regs[mod]
                 else:
                     pc = pc + int(mod)
+            else:
+                pc += 1
+
 
         if op == "mod":
             pc += 1
@@ -95,6 +101,7 @@ def execute(regs, prg):
                 regs[reg] = regs[reg] % regs[mod]
             else:
                 regs[reg] = regs[reg] % int(mod)
+
 
         if op == "mul":
             pc += 1
@@ -106,13 +113,23 @@ def execute(regs, prg):
                 receive = sound
                 print("receive set to %d" % (receive))
 
+
         if op == "set":
             pc += 1
-            regs[reg] = int(mod)
+            if mod.isalpha():
+                regs[reg] = regs[mod]
+            else:
+                regs[reg] = int(mod)
+
 
         if op == "snd":
             pc += 1
             sound = regs[reg]
+
+
+        # Dump the state:
+        print("Current state: ", regs)
+        print("")
 
 
 #-------------------------------------------------------------------
