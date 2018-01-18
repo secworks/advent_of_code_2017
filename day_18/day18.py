@@ -59,7 +59,7 @@ def execute(regs, prg):
     pc = 0
     ctr = 0
     end = len(prg)
-    while (pc >= 0) and (pc <= end) and ctr < 10000:
+    while (pc >= 0) and (pc <= end) and ctr < 100000:
         ctr += 1
         # Get next instruction, extract opcodes, regs and modifiers.
         # Handle different instruction formats during extraction.
@@ -105,7 +105,11 @@ def execute(regs, prg):
 
         if op == "mul":
             pc += 1
-            regs[reg] = regs[reg] * int(mod)
+            if mod.isalpha():
+                regs[reg] = regs[reg] * regs[mod]
+            else:
+                regs[reg] = regs[reg] * int(mod)
+
 
         if op == "rcv":
             pc += 1
@@ -133,12 +137,25 @@ def execute(regs, prg):
 
 
 #-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def testcase():
+    test_program = [['set', 'a', '1'], ['add', 'a', '2'], ['mul', 'a', 'a'],
+                    ['mod', 'a', '5'], ['snd', 'a'], ['set', 'a', '0'],
+                    ['rcv', 'a'], ['jgz', 'a', '-1'], ['set', 'a',  '1'],
+                    ['jgz', 'a',  '-2']]
+
+    test_regfile = build_regfile(test_program)
+    execute(test_regfile, test_program)
+
+
+#-------------------------------------------------------------------
 # main()
 #-------------------------------------------------------------------
 def main():
-    my_program = load_sw()
-    my_regfile = build_regfile(my_program)
-    execute(my_regfile, my_program)
+    testcase()
+#    my_program = load_sw()
+#    my_regfile = build_regfile(my_program)
+#    execute(my_regfile, my_program)
 
 
 #-------------------------------------------------------------------
