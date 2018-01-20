@@ -20,6 +20,21 @@ VERBOSE = 0
 
 
 #-------------------------------------------------------------------
+# class VM()
+#
+# The vm class that encapsulates the machine able to execute the
+# given code and possible communicate with anonter machine.
+#-------------------------------------------------------------------
+class VM():
+    def __init__(self, pid, verbose = False):
+        self.pid = pid
+        self.verbose = verbose
+
+        if self.verbode:
+            print("Hi i'm process %s" % (self.pid))
+
+
+#-------------------------------------------------------------------
 # load_sw()
 #
 # Load the dance from file, parsing the moves into something
