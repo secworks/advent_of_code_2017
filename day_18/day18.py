@@ -26,12 +26,34 @@ VERBOSE = 0
 # given code and possible communicate with anonter machine.
 #-------------------------------------------------------------------
 class VM():
-    def __init__(self, pid, verbose = False):
+    def __init__(self, pid, mode = "step1", verbose = False):
         self.pid = pid
+        self.mode = mode
         self.verbose = verbose
+        self.regfile = {}
+        self.code = {}
 
-        if self.verbode:
-            print("Hi i'm process %s" % (self.pid))
+        if self.verbose:
+            print("Hi I'm process %s" % (self.pid))
+
+
+    def load(self, code):
+        self.code = code
+        self.regfile = self.__build_regfile()
+
+
+    def execute(self):
+        pass
+
+
+    def __build_regfile(self):
+        for instr in self.code:
+            if len(instr) == 3:
+                (opcode, reg, value) = instr
+            else:
+                (opcode, reg) = instr
+            if reg.isalpha():
+                regfile[reg] = 0
 
 
 #-------------------------------------------------------------------
@@ -167,7 +189,9 @@ def testcase():
 # main()
 #-------------------------------------------------------------------
 def main():
-    testcase()
+    my_vm = VM('apa', verbose = True)
+
+#    testcase()
 #    my_program = load_sw()
 #    my_regfile = build_regfile(my_program)
 #    execute(my_regfile, my_program)
