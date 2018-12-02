@@ -39,17 +39,17 @@ def get_input():
 #-------------------------------------------------------------------
 def part_one(code):
     print("Part one:")
-    ctr = 0
+    cycles = 0
     pc = 0
     codelen = len(code)
     offset = 0
     while pc >= 0 and pc < codelen:
+        cycles += 1
         offset = code[pc]
-        code[pc] = code[pc] + 1
+        code[pc] += 1
         pc = pc + offset
-        ctr += 1
 
-    print("Exited code at pc = %d after %d cycles." % (pc, ctr))
+    print("Exited code at pc = %d after %d cycles." % (pc, cycles))
     print()
 
 
@@ -64,26 +64,21 @@ def part_one(code):
 #-------------------------------------------------------------------
 def part_two(code):
     print("Part two:")
-    ctr = 0
+    cycles = 0
     pc = 0
     codelen = len(code)
     offset = 0
-
     while pc >= 0 and pc < codelen:
+        cycles += 1
         offset = code[pc]
-        print("pc = %d, offset = %d" % (pc, offset))
-
-        if offset >= 3:
-            code[pc] = code[pc] - 1
+        if offset > 2:
+            code[pc] -= 1
         else:
-            code[pc] = code[pc] + 1
-
+            code[pc] += 1            
         pc = pc + offset
-        ctr += 1
 
-    print("Exited code at pc = %d after %d cycles." % (pc, ctr))
+    print("Exited code at pc = %d after %d cycles." % (pc, cycles))
     print()
-    return (code, ctr)
 
 
 #-------------------------------------------------------------------
@@ -107,11 +102,11 @@ def test_two():
 # main()
 #-------------------------------------------------------------------
 def main():
-    test_two()
-#    my_code = get_input()
-#    part_one(my_code)
-#    part_two(my_code)
+    my_code = get_input()
+    part_one(my_code)
 
+    my_code = get_input()
+    part_two(my_code)
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
